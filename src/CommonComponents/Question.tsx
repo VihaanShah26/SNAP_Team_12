@@ -1,6 +1,12 @@
 import React from 'react';
+import Select from 'react-dropdown-select';
 
-export const typeOptions = { checkbox: 'checkbox', radio: 'radio', text: 'text' };
+export const typeOptions = {
+  checkbox: 'checkbox',
+  radio: 'radio',
+  text: 'text',
+  dropdown: 'dropdown',
+};
 type types = keyof typeof typeOptions;
 
 interface Props {
@@ -14,7 +20,7 @@ const renderOptions = (options: string[] | undefined, type: string, question: st
   switch (type) {
     case typeOptions.checkbox:
       return (
-        <>
+        <div style={style.optionButton}>
           {options?.length &&
             options.map((item, index) => {
               return (
@@ -24,11 +30,11 @@ const renderOptions = (options: string[] | undefined, type: string, question: st
                 </label>
               );
             })}
-        </>
+        </div>
       );
     case typeOptions.radio:
       return (
-        <>
+        <div style={style.optionButton}>
           {options?.length &&
             options.map((item, index) => {
               return (
@@ -38,10 +44,23 @@ const renderOptions = (options: string[] | undefined, type: string, question: st
                 </label>
               );
             })}
-        </>
+        </div>
       );
     case typeOptions.text:
       return <input style={style.inputStyle} />;
+    case typeOptions.dropdown:
+      return (
+        <Select
+          options={[
+            { value: 1, label: 'Leanee' },
+            { value: 2, label: 'how are you?' },
+          ]}
+          onChange={(values) => console.log(values)}
+          values={[]} // these are the selected values
+          multi={true}
+          searchable
+        />
+      );
     default:
       'we are using default';
   }
@@ -66,6 +85,7 @@ const style = {
   question: {
     margin: 0,
     fontWeight: 700,
+    marginBottom: '1%',
   },
   inputStyle: {
     border: 'none',
@@ -74,6 +94,7 @@ const style = {
     marginTop: '0.5rem',
     width: '98%',
   },
+  optionButton: { display: 'flex', flexWrap: 'wrap', gap: 4 },
 };
 
 export default Question;

@@ -3,7 +3,7 @@ import React from 'react';
 import Plus from '../../resources/plus.png';
 import Question from '../CommonComponents/Question';
 import { STRINGS } from '../Constants/Strings';
-import Data from '../data.json';
+import Data from '../data';
 
 function AddContact() {
   return (
@@ -29,6 +29,12 @@ function AddContact() {
           />
         );
       })}
+      <input
+        style={styles.submitButton}
+        type="button"
+        value="Submit"
+        onClick={() => {}}
+      />
     </div>
   );
 }
@@ -40,6 +46,9 @@ const styles = {
     // backgroundColor: 'lightGrey',
     borderRadius: 50,
     textAlign: 'left',
+    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'column',
   },
   plusSignIcon: {
     width: '2.5rem',
@@ -54,6 +63,7 @@ const styles = {
   titleText: { fontWeight: 700 },
   subTitleText: { marginBottom: -20 },
   question: { marginBottom: '2%', padding: '2%' },
+  submitButton: { padding: '1%', fontWeight: 700, borderRadius: 10 },
 };
 
 export default AddContact;
