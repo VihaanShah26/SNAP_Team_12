@@ -1,13 +1,15 @@
 import './App.css';
 
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import handWave from '../resources/wave.png';
 import Button from './CommonComponents/Button';
-import AddContact from './Components/AddContact';
+import routes from './Routes/routes';
 
 const buttons = [
-  { name: 'Add a Contact', route: '' },
-  { name: 'Visualize', route: '' },
-  { name: 'Insights', route: '' },
+  { name: 'Add a Contact', route: '/' },
+  { name: 'Visualize', route: '/visualize' },
+  { name: 'Insights', route: '/insights' },
 ];
 
 const styles = {
@@ -31,17 +33,31 @@ function App() {
         <div>
           {buttons.map((_item, _index) => {
             return (
-              <Button
-                name={_item.name}
-                key={_index}
-                style={styles.buttonStyle}
-                onClick={() => alert('hello')}
-              />
+              <a key={_index} href={_item.route}>
+                <Button
+                  name={_item.name}
+                  key={_index}
+                  style={styles.buttonStyle}
+                  onClick={() => {}}
+                />
+              </a>
             );
           })}
         </div>
       </header>
-      <AddContact />
+      <BrowserRouter>
+        <Routes>
+          {routes.map((item, index) => {
+            return <Route path={item.route} element={item.element} key={index} />;
+          })}
+          {/* <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="blogs" element={<Blogs />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<NoPage />} />
+        </Route> */}
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
