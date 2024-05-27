@@ -1,9 +1,11 @@
 import './App.css';
 
+import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import handWave from '../resources/wave.png';
 import Button from './CommonComponents/Button';
+// import connection from './Database/connection';
 import routes from './Routes/routes';
 
 const buttons = [
@@ -23,6 +25,12 @@ const styles = {
 };
 
 function App() {
+  useEffect(() => {
+    fetch('/api/data')
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
