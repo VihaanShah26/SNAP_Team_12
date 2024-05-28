@@ -7,12 +7,14 @@ export default [
     required: true,
     type: typeOptions.dropdown,
     databaseColumn: databaseFields.username,
+    isRequired: true,
   },
   {
     question: 'Please enter name of the contact',
     required: true,
     type: typeOptions.dropdown,
     databaseColumn: databaseFields.contact_name,
+    isRequired: true,
   },
   {
     question: 'How would you best describe your relationship with this contact?',
@@ -61,6 +63,7 @@ export default [
       'Explore my emotions',
     ],
     databaseColumn: databaseFields.helps_me,
+    isRequired: true,
   },
   {
     question: 'How often do you communicate with this contact via text, call, email?',

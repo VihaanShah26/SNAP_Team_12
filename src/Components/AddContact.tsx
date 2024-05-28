@@ -24,27 +24,62 @@ function AddContact() {
     closest_friend2: '',
   });
 
+  const validation = () => {
+    if (
+      contactInformation.contact_name.length > 0 &&
+      contactInformation.username.length > 0 &&
+      contactInformation.relationship.length > 0
+    )
+      return true;
+    return false;
+  };
+
+  const clearFields = () => {
+    setContactInformation({
+      id: -1,
+      contact_name: '',
+      username: '',
+      relationship: '',
+      meet: '',
+      spend_time: '',
+      current_interests: [],
+      communication_frequency: '',
+      helps_me: '',
+      friends: [],
+      closest_city: '',
+      closest_friend1: '',
+      closest_friend3: '',
+      closest_friend2: '',
+    });
+  };
+
   const onSubmit = async () => {
-    const commaSeperatedInterests = contactInformation.current_interests.join(',');
-    const modifiedContactCard = {
-      ...contactInformation,
-      contact_name: contactInformation.contact_name[0],
-      username: contactInformation.username[0],
-      current_interests: commaSeperatedInterests,
-      closest_friend1: contactInformation.friends[0],
-      closest_friend2: contactInformation.friends[1],
-      closest_friend3: contactInformation.friends[2],
-    };
-    const strigified = JSON.stringify(modifiedContactCard);
-    await fetch('/api/addContact', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body: strigified,
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
+    if (validation()) {
+      const commaSeperatedInterests = contactInformation.current_interests.join(',');
+      const modifiedContactCard = {
+        ...contactInformation,
+        contact_name: contactInformation.contact_name[0],
+        username: contactInformation.username[0],
+        current_interests: commaSeperatedInterests,
+        closest_friend1: contactInformation?.friends[0] || '',
+        closest_friend2: contactInformation?.friends[1] || '',
+        closest_friend3: contactInformation?.friends[2] || '',
+      };
+      const strigified = JSON.stringify(modifiedContactCard);
+      await fetch('/api/addContact', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+        body: strigified,
+      })
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+      alert('Data has been submitted!');
+      clearFields();
+    } else {
+      alert('Please enter the required fields.');
+    }
   };
 
   return (
@@ -71,6 +106,7 @@ function AddContact() {
             contactInformation={contactInformation}
             setContactInformation={setContactInformation}
             multiSelectForDropdown={item.multiselect || false}
+            isRequired={(item?.isRequired && true) || false}
           />
         );
       })}

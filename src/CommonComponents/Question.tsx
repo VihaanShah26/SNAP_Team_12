@@ -20,6 +20,7 @@ interface Props {
   setContactInformation: React.Dispatch<React.SetStateAction<ContactCard>>;
   databaseColumn: string;
   multiSelectForDropdown?: boolean;
+  isRequired?: boolean;
 }
 
 const renderOptions = (
@@ -150,10 +151,11 @@ function Question(props: Props) {
     setContactInformation,
     databaseColumn,
     multiSelectForDropdown,
+    isRequired = false,
   } = props;
   return (
     <div style={{ ...style.container, ...containerStyle }}>
-      <p style={style.question}>{question}</p>
+      <p style={style.question}>{`${question} ${(isRequired && '*') || ''}`}</p>
       {renderOptions(
         options,
         type,
