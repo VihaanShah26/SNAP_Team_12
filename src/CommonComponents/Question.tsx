@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-dropdown-select';
 
 import { ContactCard } from '../Constants/DatabaseIterface';
@@ -31,6 +31,22 @@ const renderOptions = (
   databaseColumn: string,
   multiSelectForDropdown: boolean = false,
 ) => {
+  const [names, setNames] = useState([]);
+  useEffect(() => {
+    getNames();
+  }, []);
+
+  const getNames = async () => {
+    return await fetch('/api/getDistinctNames')
+      .then((res) => res.json())
+      .then((res) => {
+        const nameArray = res.map((item) => {
+          return { label: item.value, value: item.value };
+        });
+        setNames(nameArray);
+      });
+  };
+
   switch (type) {
     case typeOptions.checkbox:
       return (
@@ -105,10 +121,7 @@ const renderOptions = (
     case typeOptions.dropdown:
       return (
         <Select
-          options={[
-            { value: 1, label: 'Leanee' },
-            { value: 2, label: 'how are you?' },
-          ]}
+          options={names}
           onChange={(values) => {
             const onlyKeys = values.map((value) => value.value);
             const updatedValues = { ...contactInformation, [databaseColumn]: onlyKeys };
@@ -136,7 +149,7 @@ function Question(props: Props) {
     contactInformation,
     setContactInformation,
     databaseColumn,
-    multiSelectForDropdown
+    multiSelectForDropdown,
   } = props;
   return (
     <div style={{ ...style.container, ...containerStyle }}>
@@ -148,7 +161,7 @@ function Question(props: Props) {
         contactInformation,
         setContactInformation,
         databaseColumn,
-        multiSelectForDropdown
+        multiSelectForDropdown,
       )}
     </div>
   );

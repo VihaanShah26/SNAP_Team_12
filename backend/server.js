@@ -46,6 +46,15 @@ app.post('/api/addContact', async (req, res) => {
     console.log(error);
   }
 });
+app.get('/api/getDistinctNames', async function (req, res) {
+  try {
+    const query = `select username as value from contacts union select closest_friend1 as value from contacts union select closest_friend2 as value from contacts union select closest_friend3 as value from contacts;`;
+    const [rows, fields] = await pool.query(query);
+    res.json(rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 app.get('/api', function (req, res) {
   console.log('Hello');
