@@ -1,11 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Plus from '../../resources/plus.png';
 import Question from '../CommonComponents/Question';
+import { ContactCard } from '../Constants/DatabaseIterface';
 import { STRINGS } from '../Constants/Strings';
 import Data from '../data';
 
 function AddContact() {
+  const [contactInformation, setContactInformation] = useState<ContactCard>({
+    id: -1,
+    contact_name: '',
+    username: '',
+    relationship: '',
+    meet: '',
+    spend_time: '',
+    current_interests: [],
+    communication_frequency: '',
+    helps_me: '',
+    friends: [],
+    closest_city: '',
+    closest_friend1: '',
+    closest_friend3: '',
+    closest_friend2: '',
+  });
+
+  const onSubmit = async () => {
+    const commaSeperatedInterests = contactInformation.current_interests.join(',');
+    const modifiedContactCard = {
+      ...contactInformation,
+      contact_name: contactInformation.contact_name[0],
+      username: contactInformation.username[0],
+      current_interests: commaSeperatedInterests,
+      closest_friend1: contactInformation.friends[0],
+      closest_friend2: contactInformation.friends[1],
+      closest_friend3: contactInformation.friends[2],
+    };
+    const strigified = JSON.stringify(modifiedContactCard);
+    await fetch('/api/addContact', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      body: strigified,
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  };
+
   return (
     <div style={styles.container}>
       <div style={{ ...styles.row, alignItems: 'center' }}>
@@ -26,6 +67,10 @@ function AddContact() {
             question={item.question}
             type={item.type}
             options={(item?.options && item.options) || []}
+            databaseColumn={item.databaseColumn}
+            contactInformation={contactInformation}
+            setContactInformation={setContactInformation}
+            multiSelectForDropdown={item.multiselect || false}
           />
         );
       })}
@@ -33,7 +78,7 @@ function AddContact() {
         style={styles.submitButton}
         type="button"
         value="Submit"
-        onClick={() => {}}
+        onClick={onSubmit}
       />
     </div>
   );

@@ -26,7 +26,7 @@ const styles = {
 
 function App() {
   useEffect(() => {
-    fetch('/api/data')
+    fetch('/')
       .then((response) => response.json())
       .then((data) => console.log(data));
   }, []);

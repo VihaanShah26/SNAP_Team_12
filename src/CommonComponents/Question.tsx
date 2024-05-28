@@ -1,6 +1,8 @@
 import React from 'react';
 import Select from 'react-dropdown-select';
 
+import { ContactCard } from '../Constants/DatabaseIterface';
+
 export const typeOptions = {
   checkbox: 'checkbox',
   radio: 'radio',
@@ -14,18 +16,58 @@ interface Props {
   type: types;
   options?: string[];
   containerStyle?: React.CSSProperties;
+  contactInformation: ContactCard;
+  setContactInformation: React.Dispatch<React.SetStateAction<ContactCard>>;
+  databaseColumn: string;
+  multiSelectForDropdown?: boolean;
 }
 
-const renderOptions = (options: string[] | undefined, type: string, question: string) => {
+const renderOptions = (
+  options: string[] | undefined,
+  type: string,
+  question: string,
+  contactInformation: ContactCard,
+  setContactInformation: React.Dispatch<React.SetStateAction<ContactCard>>,
+  databaseColumn: string,
+  multiSelectForDropdown: boolean = false,
+) => {
   switch (type) {
     case typeOptions.checkbox:
       return (
         <div style={style.optionButton}>
           {options?.length &&
             options.map((item, index) => {
+              const isChecked = contactInformation[databaseColumn]?.indexOf(item) >= 0;
               return (
                 <label key={index}>
-                  <input type="checkbox" name={question} value={question} key={index} />
+                  <input
+                    type="checkbox"
+                    name={item}
+                    value={item}
+                    key={index}
+                    checked={isChecked}
+                    onChange={(value) => {
+                      if (contactInformation[databaseColumn]?.indexOf(item) === -1) {
+                        const newContact = {
+                          ...contactInformation,
+                          [databaseColumn]: [
+                            ...contactInformation[databaseColumn],
+                            value.target.value,
+                          ],
+                        };
+                        setContactInformation(newContact);
+                      } else {
+                        const index = contactInformation[databaseColumn].indexOf(item);
+                        const array = contactInformation[databaseColumn];
+                        array.splice(index, 1);
+                        const newContact = {
+                          ...contactInformation,
+                          [databaseColumn]: array,
+                        };
+                        setContactInformation(newContact);
+                      }
+                    }}
+                  />
                   {item}
                 </label>
               );
@@ -39,7 +81,19 @@ const renderOptions = (options: string[] | undefined, type: string, question: st
             options.map((item, index) => {
               return (
                 <label key={index}>
-                  <input type="radio" name={question} value={question} key={index} />
+                  <input
+                    type="radio"
+                    name={question}
+                    value={item}
+                    key={index}
+                    onChange={(event) => {
+                      const newData = {
+                        ...contactInformation,
+                        [databaseColumn]: event.target.value,
+                      };
+                      setContactInformation(newData);
+                    }}
+                  />
                   {item}
                 </label>
               );
@@ -55,10 +109,17 @@ const renderOptions = (options: string[] | undefined, type: string, question: st
             { value: 1, label: 'Leanee' },
             { value: 2, label: 'how are you?' },
           ]}
-          onChange={(values) => console.log(values)}
-          values={[]} // these are the selected values
-          multi={true}
+          onChange={(values) => {
+            const onlyKeys = values.map((value) => value.value);
+            const updatedValues = { ...contactInformation, [databaseColumn]: onlyKeys };
+            setContactInformation(updatedValues);
+          }}
+          values={[...contactInformation[databaseColumn]]} // these are the selected values
+          multi={multiSelectForDropdown}
           searchable
+          create
+          clearable
+          keepSelectedInList={false}
         />
       );
     default:
@@ -67,11 +128,28 @@ const renderOptions = (options: string[] | undefined, type: string, question: st
 };
 
 function Question(props: Props) {
-  const { type, options, question, containerStyle } = props;
+  const {
+    type,
+    options,
+    question,
+    containerStyle,
+    contactInformation,
+    setContactInformation,
+    databaseColumn,
+    multiSelectForDropdown
+  } = props;
   return (
     <div style={{ ...style.container, ...containerStyle }}>
       <p style={style.question}>{question}</p>
-      {renderOptions(options, type, question)}
+      {renderOptions(
+        options,
+        type,
+        question,
+        contactInformation,
+        setContactInformation,
+        databaseColumn,
+        multiSelectForDropdown
+      )}
     </div>
   );
 }
