@@ -36,7 +36,7 @@ app.post('/api/addContact', async (req, res) => {
       friends,
       contact_name,
     } = req.body;
-    const friendsString = friends.join(",");
+    const friendsString = friends.join(',');
     const query = `insert into contacts (contact_name, relationship, time_together, interests, val, frequency, meeting_context, city, other_ties) values ('${contact_name}', '${relationship}', '${spend_time}', '${current_interests}', '${helps_me}', '${communication_frequency}', '${meet}', '${closest_city}', '${friendsString}')`;
     const [rows, fields] = await pool.query(query);
     res.json(rows);

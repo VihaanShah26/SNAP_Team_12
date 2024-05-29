@@ -42,10 +42,10 @@ const renderOptions = (
       .then((res) => res.json())
       .then((res) => {
         const names = new Set();
-        res.forEach(element => {
+        res.forEach((element) => {
           names.add(element.contact_name);
-          const otherTies = element.other_ties.split(",");
-          otherTies.forEach(tie => {
+          const otherTies = element.other_ties.split(',');
+          otherTies.forEach((tie) => {
             names.add(tie);
           });
         });
