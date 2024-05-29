@@ -3,13 +3,6 @@ import { databaseFields } from './Constants/DatabaseIterface';
 
 export default [
   {
-    question: 'Please enter your name',
-    required: true,
-    type: typeOptions.dropdown,
-    databaseColumn: databaseFields.username,
-    isRequired: true,
-  },
-  {
     question: 'Please enter name of the contact',
     required: true,
     type: typeOptions.dropdown,

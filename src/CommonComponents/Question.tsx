@@ -41,8 +41,17 @@ const renderOptions = (
     return await fetch('/api/getDistinctNames')
       .then((res) => res.json())
       .then((res) => {
-        const nameArray = res.map((item) => {
-          return { label: item.value, value: item.value };
+        const names = new Set();
+        res.forEach(element => {
+          names.add(element.contact_name);
+          const otherTies = element.other_ties.split(",");
+          otherTies.forEach(tie => {
+            names.add(tie);
+          });
+        });
+        const distinctNames = Array.from(names).sort();
+        const nameArray = distinctNames.map((item) => {
+          return { label: item, value: item };
         });
         setNames(nameArray);
       });

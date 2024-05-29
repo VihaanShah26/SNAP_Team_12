@@ -33,13 +33,11 @@ app.post('/api/addContact', async (req, res) => {
       communication_frequency,
       helps_me,
       closest_city,
-      username,
+      friends,
       contact_name,
-      closest_friend1,
-      closest_friend2,
-      closest_friend3,
     } = req.body;
-    const query = `insert into contacts (username, contact_name, relationship, spend_time, current_interests, helps_me, communication_frequency, meet, closest_city, closest_friend1, closest_friend2, closest_friend3)values ('${username}', '${contact_name}', '${relationship}', '${spend_time}', '${current_interests}', '${helps_me}', '${communication_frequency}', '${meet}', '${closest_city}', '${closest_friend1}', '${closest_friend2}', '${closest_friend3}')`;
+    const friendsString = friends.join(",");
+    const query = `insert into contacts (contact_name, relationship, time_together, interests, val, frequency, meeting_context, city, other_ties) values ('${contact_name}', '${relationship}', '${spend_time}', '${current_interests}', '${helps_me}', '${communication_frequency}', '${meet}', '${closest_city}', '${friendsString}')`;
     const [rows, fields] = await pool.query(query);
     res.json(rows);
   } catch (error) {
@@ -48,7 +46,7 @@ app.post('/api/addContact', async (req, res) => {
 });
 app.get('/api/getDistinctNames', async function (req, res) {
   try {
-    const query = `select username as value from contacts union select closest_friend1 as value from contacts union select closest_friend2 as value from contacts union select closest_friend3 as value from contacts;`;
+    const query = `select contact_name, other_ties from contacts;`;
     const [rows, fields] = await pool.query(query);
     res.json(rows);
   } catch (error) {
