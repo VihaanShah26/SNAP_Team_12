@@ -54,6 +54,18 @@ app.get('/api/getDistinctNames', async function (req, res) {
   }
 });
 
+app.get('/api/getSelectedNameData/:name', async function (req, res) {
+  try {
+    console.log(req.params.name);
+    const name = req.params.name;
+    console.log(name);
+    const query = `select * from contacts where contact_name like '%${name}%' or other_ties like '%${name}%'`;
+    const [rows, fields] = await pool.query(query);
+    res.json(rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
 app.get('/api', function (req, res) {
   console.log('Hello');
 

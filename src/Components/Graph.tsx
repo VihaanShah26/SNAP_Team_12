@@ -1,43 +1,72 @@
 import React from 'react';
-import { GraphCanvas } from 'reagraph';
+import { GraphCanvas, GraphEdge, GraphNode } from 'reagraph';
 
-const nodes = [
-  {
-    id: '1',
-    label: '1',
-  },
-  {
-    id: '2',
-    label: '2',
-  },
-];
+// const nodes1 = [
+//   {
+//     id: 'hi',
+//     label: 'hi',
+//   },
+//   {
+//     id: 'hi',
+//     label: 'hi',
+//   },
+//   {
+//     id: 'no',
+//     label: 'no',
+//   },
+//   {
+//     id: 'no',
+//     label: 'no',
+//   },
+// ];
 
-const edges = [
-  {
-    source: '1',
-    target: '2',
-    id: '1-2',
-    label: '1-2',
-  },
-  {
-    source: '2',
-    target: '1',
-    id: '2-1',
-    label: '2-1',
-  },
-];
+// const edges1 = [
+//   {
+//     source: 'hi',
+//     target: 'no',
+//     id: 'hi-no',
+//     label: 'hi-no',
+//   },
+//   {
+//     source: 'hi',
+//     target: 'no',
+//     id: 'hi-no',
+//     label: 'hi-no',
+//   },
+//   {
+//     source: 'no',
+//     target: 'hi',
+//     id: 'no-hi',
+//     label: 'no-hi',
+//   },
+//   {
+//     source: 'no',
+//     target: 'hi',
+//     id: 'no-hi',
+//     label: 'no-hi',
+//   },
+// ];
 
-export const Graph = () => (
-  <div
-    style={{
-      position: 'absolute',
-      margin: '1%',
-      width: '95vw',
-      height: '85vh',
-      border: '2px solid black',
-      borderRadius: 8,
-    }}
-  >
-    <GraphCanvas nodes={nodes} edges={edges} />
-  </div>
-);
+interface Props {
+  nodes: GraphNode;
+  edges: GraphEdge;
+}
+
+export function Graph(props: Props) {
+  const { nodes, edges } = props;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        margin: '1%',
+        width: '95vw',
+        height: '50vh',
+        border: '2px solid black',
+        borderRadius: 8,
+      }}
+    >
+      <GraphCanvas nodes={nodes} edges={edges} />
+    </div>
+  );
+}

@@ -16,8 +16,10 @@ interface Props {
   type: types;
   options?: string[];
   containerStyle?: React.CSSProperties;
-  contactInformation: ContactCard;
-  setContactInformation: React.Dispatch<React.SetStateAction<ContactCard>>;
+  contactInformation: ContactCard | string;
+  setContactInformation:
+    | React.Dispatch<React.SetStateAction<ContactCard>>
+    | React.Dispatch<React.SetStateAction<string>>;
   databaseColumn: string;
   multiSelectForDropdown?: boolean;
   isRequired?: boolean;
@@ -43,15 +45,15 @@ const renderOptions = (
       .then((res) => {
         const names = new Set();
         res.forEach((element) => {
-          names.add(element.contact_name);
+          names.add(element.contact_name.trim());
           const otherTies = element.other_ties.split(',');
           otherTies.forEach((tie) => {
-            names.add(tie);
+            names.add(tie.trim());
           });
         });
         const distinctNames = Array.from(names).sort();
         const nameArray = distinctNames.map((item) => {
-          return { label: item, value: item };
+          return { label: item.trim(), value: item.trim() };
         });
         setNames(nameArray);
       });

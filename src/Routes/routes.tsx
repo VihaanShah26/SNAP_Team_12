@@ -1,5 +1,5 @@
 import AddContact from '../Components/AddContact';
-import { Graph } from '../Components/Graph';
+import Visualize from '../Components/Visualize';
 
 export default [
   {
@@ -8,11 +8,7 @@ export default [
   },
   {
     route: '/visualize',
-    element: (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Graph />
-      </div>
-    ),
+    element: <Visualize />,
   },
   {
     route: '/insights',
