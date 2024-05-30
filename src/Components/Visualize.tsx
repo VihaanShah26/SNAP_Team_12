@@ -3,6 +3,7 @@ import Select from 'react-dropdown-select';
 import { GraphEdge, GraphNode } from 'reagraph';
 
 import { Graph } from './Graph';
+import Snakey from './Snakey';
 
 function Visualize() {
   const [names, setNames] = useState([]);
@@ -102,6 +103,7 @@ function Visualize() {
         keepSelectedInList={false}
       />
       <Graph nodes={graphNodes} edges={graphEdges} />
+      <Snakey />
     </div>
   );
 }

@@ -58,7 +58,7 @@ export function Graph(props: Props) {
   return (
     <div
       style={{
-        position: 'absolute',
+        position: 'relative',
         margin: '1%',
         width: '95vw',
         height: '50vh',
