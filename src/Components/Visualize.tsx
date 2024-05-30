@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-dropdown-select';
 import { GraphEdge, GraphNode } from 'reagraph';
 
+import BarChart from './BarChart';
 import { Graph } from './Graph';
 import Snakey from './Snakey';
 
@@ -90,7 +91,7 @@ function Visualize() {
   };
 
   return (
-    <div>
+    <div style={{ width: '80%' }}>
       <Select
         options={names}
         onChange={(values) => {
@@ -104,6 +105,7 @@ function Visualize() {
       />
       <Graph nodes={graphNodes} edges={graphEdges} />
       <Snakey />
+      <BarChart />
     </div>
   );
 }
