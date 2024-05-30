@@ -12,8 +12,8 @@ function BarChart() {
     await fetch('/api/allData')
       .then((res) => res.json())
       .then((res) => {
-        const x = res.map((row) => row.contact_name);
-        const y = res.map((row) => row.frequency);
+        // const x = res.map((row) => row.contact_name);
+        // const y = res.map((row) => row.frequency);
         const cities = [...new Set(res.map((row) => row.city))];
 
         const traces = cities.map((city) => {
